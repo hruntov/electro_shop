@@ -24,3 +24,20 @@ def product_list(request, category_slug=None):
     return render(request, 'shop/product/list.html', {'category': category,
                                                       'categories': categories,
                                                       'products': products})
+
+
+def product_detail(request, id, slug):
+    """
+    Display the detail page for a single product.
+
+    Args:
+        request: HttpRequest object.
+        id (int): The ID of the product to retrieve.
+        slug (str): The slug of the product to retrieve.
+
+    Returns:
+        HttpResponse: Rendered HTML page for the product detail, including the product instance.
+
+    """
+    product = get_object_or_404(Product, id=id, slug=slug, available=True)
+    return render(request, 'shop,product,detail.html', {'product': product})
