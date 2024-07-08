@@ -1,5 +1,9 @@
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
 from django.urls import reverse
+
+from PIL import Image
+from io import BytesIO
 
 
 class Category(models.Model):
@@ -43,3 +47,19 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse("shop:product_detail", args=(self.id, self.slug))
+
+    def save(self, *args, **kwargs):
+        if self.image:
+            img = Image.open(self.image)
+            output = BytesIO()
+
+            img = img.resize((480, 334), Image.Resampling.LANCZOS)
+            img.save(output, format='JPEG', quality=100)
+            output.seek(0)
+
+            self.image = InMemoryUploadedFile(output,
+                                              'ImageField',
+                                              "%s.jpg" % self.image.name.split('.')[0],
+                                              'image/jpeg', output.getbuffer().nbytes, None)
+
+        super().save(*args, **kwargs)
