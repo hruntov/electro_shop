@@ -1,5 +1,5 @@
 from decimal import Decimal
-from typing import Any, Dict
+from typing import Any, Dict, Iterator
 
 from django.conf import settings
 from django.http import HttpRequest
@@ -23,6 +23,25 @@ class Cart:
         if not cart:
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
+
+    def __iter__(self) -> Iterator[Dict[str, Any]]:
+        """
+        Iterates over the items in the cart, adding product details and calculating the total price.
+
+        Yields:
+            Iterator[Dict[str, Any]]: An iterator over the cart items, where each item is a
+                dictionary containing product details, its price, quantity, and the total price.
+
+        """
+        product_ids = self.cart.keys()
+        products = Product.objects.filter(id__in=product_ids)
+        cart = self.cart.copy()
+        for product in products:
+            cart[str(product.id)]['product'] = product
+        for item in cart.values():
+            item['price'] = Decimal(item['price'])
+            item['total_price'] = item['price'] * item['quantity']
+            yield item
 
     def add(self, product: Any, quantity: int = 1, override_quantity: bool = False) -> None:
         """
@@ -63,3 +82,5 @@ class Cart:
         if product_id on self.cart:
             del self.cart[product_id]
             self.save()
+
+
