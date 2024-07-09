@@ -28,3 +28,22 @@ def cart_add(request, product_id) -> HttpResponseRedirect:
         cart.add(product=product, quantity=cd['quanity'], override_quantity=cd['override'])
 
     return redirect('card:cart_detail')
+
+
+@require_POST
+def cart_remove(request, product_id) -> HttpResponseRedirect:
+    """
+    Removes a product from the cart.
+
+    Args:
+        request (HttpRequest): The request object, used to access session data.
+        product_id (int): The ID of the product to be removed from the cart.
+
+    Returns:
+        HttpResponseRedirect: Redirects to the cart detail page after the product has been removed.
+
+    """
+    cart = Cart(request)
+    product = get_object_or_404(Product, id=product_id)
+    cart.remove(product)
+    return redirect('cart:cart_detail')
