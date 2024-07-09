@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
@@ -8,7 +8,7 @@ from myshop.shop.models import Product
 
 
 @require_POST
-def cart_add(request, product_id) -> HttpResponseRedirect:
+def cart_add(request: HttpRequest, product_id: int) -> HttpResponseRedirect:
     """
     Adds a product to the cart or updates its quantity.
 
@@ -31,7 +31,7 @@ def cart_add(request, product_id) -> HttpResponseRedirect:
 
 
 @require_POST
-def cart_remove(request, product_id) -> HttpResponseRedirect:
+def cart_remove(request: HttpRequest, product_id: int) -> HttpResponseRedirect:
     """
     Removes a product from the cart.
 
