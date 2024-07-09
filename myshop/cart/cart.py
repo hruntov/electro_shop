@@ -43,6 +43,16 @@ class Cart:
             item['total_price'] = item['price'] * item['quantity']
             yield item
 
+    def __len__(self) -> int:
+        """
+        Calculates the total number of items in the cart.
+
+        Returns:
+            int: The total quantity of all items in the cart.
+
+        """
+        return sum(item['quantity'] for item in self.cart.values())
+
     def add(self, product: Any, quantity: int = 1, override_quantity: bool = False) -> None:
         """
         Adds a product to the cart or updates its quantity.
