@@ -4,7 +4,7 @@ from typing import Any, Dict, Iterator
 from django.conf import settings
 from django.http import HttpRequest
 
-from myshop.shop.models import Product
+from shop.models import Product
 
 
 class Cart:
