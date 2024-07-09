@@ -47,3 +47,18 @@ def cart_remove(request: HttpRequest, product_id: int) -> HttpResponseRedirect:
     product = get_object_or_404(Product, id=product_id)
     cart.remove(product)
     return redirect('cart:cart_detail')
+
+
+def cart_detail(request: HttpRequest) -> HttpResponseRedirect:
+    """
+    Renders the cart detail page.
+
+    Args:
+        request (HttpRequest): The request object, used to access session data.
+
+    Returns:
+        HttpResponse: The rendered cart detail page.
+
+    """
+    cart = Cart(request)
+    return render(request, 'cart/detail.html', {'cart': cart})
