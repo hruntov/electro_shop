@@ -93,4 +93,14 @@ class Cart:
             del self.cart[product_id]
             self.save()
 
+    def get_total_price(self) -> Decimal:
+        """
+        Calculates the total price of all items in the cart.
+
+        Returns:
+            Decimal: The total price of all items in the cart.
+
+        """
+        return sum(Decimal(item['price'] * item['quantity']
+                           for item in self.cart.values()))
 
