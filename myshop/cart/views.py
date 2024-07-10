@@ -25,9 +25,9 @@ def cart_add(request: HttpRequest, product_id: int) -> HttpResponseRedirect:
     form = CartAddProductForm(request.POST)
     if form.is_valid():
         cd = form.cleaned_data
-        cart.add(product=product, quantity=cd['quanity'], override_quantity=cd['override'])
+        cart.add(product=product, quantity=cd['quantity'], override_quantity=cd['override'])
 
-    return redirect('card:cart_detail')
+    return redirect('cart:cart_detail')
 
 
 @require_POST
