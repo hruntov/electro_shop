@@ -101,8 +101,8 @@ class Cart:
             Decimal: The total price of all items in the cart.
 
         """
-        return sum(Decimal(item['price'] * item['quantity']
-                           for item in self.cart.values()))
+        total = sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
+        return Decimal(total)
 
     def clear(self) -> None:
         """Clears all items from the cart session."""
