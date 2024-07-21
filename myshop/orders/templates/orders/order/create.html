@@ -1,0 +1,26 @@
+{% extends "shop/base.html "%}
+
+{% block title %}
+    Оформити замовлення
+{% endblock %}
+
+{% block content %}
+    <h1>Оформити замовлення</h1>
+    <div class="order-info">
+        <h3>Ваше замовлення:</h3>
+        <ul>
+            {% for item in cart %}
+            <li>
+                {{ item.quantity }} x {{ item.product.name }}
+                <span>{{ item.total_price }} грн.</span>
+            </li>
+            {% endfor %}
+        </ul>
+        <p>Загальна вартість: <strong>{{ cart.get_total_price }} грн.</strong></p>
+    </div>
+    <form method="post" class="order-form">
+        {{ form.as_p }}
+        <p><input type="submit" value="Розмістіть замовлення"></p>
+        {% csrf_token %}
+    </form>
+{% endblock %}
