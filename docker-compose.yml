@@ -8,6 +8,7 @@ services:
     networks:
       - mynetwork
     ports:
+      - 5555:5555
       - 8000:8000
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000"]
