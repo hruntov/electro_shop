@@ -10,7 +10,8 @@ ENV PYTHONFAULTHANDLER=1 \
   POETRY_CACHE_DIR='/var/cache/pypoetry'
 
 RUN apt-get update && apt-get install -y \
-    curl
+    curl \
+    libpq-dev
 
 RUN apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
   && pip install "poetry-core==1.8.1" "poetry==$POETRY_VERSION" && poetry --version
