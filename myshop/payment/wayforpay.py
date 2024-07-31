@@ -96,9 +96,6 @@ class WayForPay:
             result = requests.post(url=API_URL, json=params)
             response_dict = json.loads(result.text)
 
-            print("QQQQ result - ", result)
-            print("QQQQ response_dict - ", response_dict)
-
             invoice_url = response_dict["invoiceUrl"]
             reason = response_dict.get("reason", None)
             reason_code = response_dict.get("reasonCode", None)
