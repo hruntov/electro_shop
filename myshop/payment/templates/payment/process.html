@@ -1,0 +1,41 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block title %}Оплата вашого замовлення{% endblock %}
+
+{% block content %}
+    <h1>Ваше замовлення</h1>
+    <table class="cart">
+        <thead>
+            <tr>
+                <th>Вигляд</th>
+                <th>Товар</th>
+                <th>Ціна</th>
+                <th>Кількість</th>
+                <th>Сума</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.items.all %}
+                <tr class="row{% cycle "1" "2"%}">
+                    <td>
+                        <img src={% if item.product.image %}{{ item.product.image.url }}
+                        {% else %}{% static "img/no_image.png" %}{% endif %}>
+                    </td>
+                    <td>{{ item.product.name }}</td>
+                    <td class="num">{{ item.price }} грн</td>
+                    <td class="num">{{ item.quantity }}</td>
+                    <td class="num">{{ item.total_price }} грн</td>
+                </tr>
+            {% endfor %}
+            <tr class="total">
+                <td colspan="4">Загальна вартість</td>
+                <td class="num">{{ order.get_total_cost }} грн</td>
+            </tr>
+        </tbody>
+    </table>
+    <form action="{% url 'payment:process' %}" method="post">
+        <input type="submit" value="Оплатити" class="btn btn-success">
+        {% csrf_token %}
+    </form>
+{% endblock %}
