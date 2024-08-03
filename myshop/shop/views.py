@@ -1,10 +1,12 @@
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, render
+from typing import Optional
 
 from cart.forms import CartAddProductForm
 from .models import Category, Product
 
 
-def product_list(request, category_slug=None):
+def product_list(request: HttpRequest, category_slug: Optional[str] = None) -> HttpResponse:
     """
     Display a list of products, optionally filtered by a given category.
 
@@ -28,7 +30,7 @@ def product_list(request, category_slug=None):
                                                       'products': products})
 
 
-def product_detail(request, id, slug):
+def product_detail(request: HttpRequest, id: int, slug: str) -> HttpResponse:
     """
     Display the detail page for a single product.
 
