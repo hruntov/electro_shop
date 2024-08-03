@@ -58,7 +58,18 @@ def payment_process(request: HttpRequest) -> HttpResponse:
 
 
 @csrf_exempt
-def payment_completed(request):
+def payment_completed(request: HttpRequest) -> HttpResponse:
+    """
+    This view processes the payment completion notification from the payment gateway.
+
+    Args:
+        request (HttpRequest): The HTTP request object containing POST data from the payment
+                               gateway.
+
+    Returns:
+        HttpResponse: The HTTP response object.
+
+    """
     data = request.POST
 
     merchant_signature = data.get('merchantSignature')
