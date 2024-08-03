@@ -170,3 +170,7 @@ class WayForPay:
         except Exception as e:
             print(f'Error: {e}')
             return None
+
+    def generate_signature(self, data):
+        message = ';'.join(data).encode('utf-8')
+        return hmac.new(self.__key.encode('utf-8'), message, hashlib.md5).hexdigest()
