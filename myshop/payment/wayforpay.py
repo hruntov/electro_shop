@@ -4,6 +4,7 @@ import hmac
 import json
 from random import randint
 import time
+from typing import Optional, List, Dict
 
 
 API_URL = 'https://api.wayforpay.com/api'
@@ -22,7 +23,39 @@ class InvoiceCreateResult:
 
 
 class InvoiceStatusResult:
-    def __init__(self, response_dict, reason, reasonCode, orderReference, amount, currency, authCode, createdDate, processingDate, cardPan, cardType, issuerBankCountry, issuerBankName, transactionStatus, refundAmount, settlementDate, settlementAmount, fee, merchantSignature):
+    def __init__(self, response_dict: Dict, reason: str, reasonCode: Optional[str],
+                 orderReference: str, amount: str, currency: str, authCode: Optional[str],
+                 createdDate: Optional[str], processingDate: Optional[str], cardPan: Optional[str],
+                 cardType: Optional[str], issuerBankCountry: Optional[str],
+                 issuerBankName: Optional[str], transactionStatus: Optional[str],
+                 refundAmount: Optional[str], settlementDate: Optional[str],
+                 settlementAmount: Optional[str], fee: Optional[str],
+                 merchantSignature: Optional[str]):
+        """
+        Initializes the InvoiceStatusResult class.
+
+        Args:
+            response_dict (Dict): The response dictionary from the API.
+            reason (str): The reason for any error that occurred.
+            reasonCode (Optional[str]): The reason code for any error that occurred.
+            orderReference (str): The order reference number.
+            amount (str): The amount of the transaction.
+            currency (str): The currency of the transaction.
+            authCode (Optional[str]): The authorization code of the transaction.
+            createdDate (Optional[str]): The creation date of the invoice.
+            processingDate (Optional[str]): The processing date of the transaction.
+            cardPan (Optional[str]): The card number used in the transaction.
+            cardType (Optional[str]): The type of the card used.
+            issuerBankCountry (Optional[str]): The country of the issuer bank.
+            issuerBankName (Optional[str]): The name of the issuer bank.
+            transactionStatus (Optional[str]): The status of the transaction.
+            refundAmount (Optional[str]): The refunded amount.
+            settlementDate (Optional[str]): The settlement date.
+            settlementAmount (Optional[str]): The settlement amount.
+            fee (Optional[str]): The fee for the transaction.
+            merchantSignature (Optional[str]): The merchant's signature.
+
+        """
         self.response_dict = response_dict
         self.reason = reason
         self.reasonCode = reasonCode
