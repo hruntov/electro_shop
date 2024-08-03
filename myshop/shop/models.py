@@ -1,9 +1,9 @@
+from io import BytesIO
+
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
 from django.urls import reverse
-
 from PIL import Image
-from io import BytesIO
 
 
 class Category(models.Model):

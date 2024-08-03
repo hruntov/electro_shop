@@ -1,9 +1,9 @@
+from cart.cart import Cart
 from django.db import transaction
 from django.http import HttpRequest, HttpResponse
+from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.shortcuts import render, redirect
 
-from cart.cart import Cart
 from .forms import OrderCreateForm
 from .models import OrderItem
 from .tasks import order_created

@@ -1,16 +1,14 @@
-from decimal import Decimal
 import os
 import time
+from decimal import Decimal
 
 from django.conf import settings
 from django.http import HttpRequest, HttpResponse, JsonResponse
-from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.views.decorators.csrf import csrf_exempt
-
-
 from orders.models import Order
-from .wayforpay import WayForPay
 
+from .wayforpay import WayForPay
 
 wayforpay = WayForPay(key=os.getenv('SECRET_WAYFORPAY_KEY'),
                       domain_name=os.getenv('DOMAIN_NAME'))

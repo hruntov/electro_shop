@@ -1,11 +1,11 @@
-import requests
 import hashlib
 import hmac
 import json
-from random import randint
 import time
-from typing import Optional, List, Dict, Any
+from random import randint
+from typing import Any, Dict, List, Optional
 
+import requests
 
 API_URL = 'https://api.wayforpay.com/api'
 

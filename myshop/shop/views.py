@@ -1,8 +1,9 @@
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import get_object_or_404, render
 from typing import Optional
 
 from cart.forms import CartAddProductForm
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import get_object_or_404, render
+
 from .models import Category, Product
 
 
