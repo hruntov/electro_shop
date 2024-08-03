@@ -3,9 +3,10 @@ import os
 import time
 
 from django.conf import settings
-from django.http import JsonResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
+
 
 from orders.models import Order
 from .wayforpay import WayForPay
@@ -15,7 +16,20 @@ wayforpay = WayForPay(key=os.getenv('SECRET_WAYFORPAY_KEY'),
                       domain_name=os.getenv('DOMAIN_NAME'))
 
 
-def payment_process(request):
+def payment_process(request: HttpRequest) -> HttpResponse:
+    """
+    Handle the payment process for an order.
+
+    This view retrieves the order from the session, creates an invoice using the WayForPay payment
+    gateway, and redirects the user to the payment URL.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The HTTP response object.
+
+    """
     order_id = request.session.get('order_id', None)
     order = get_object_or_404(Order, id=order_id)
     if request.method == 'POST':
