@@ -1,4 +1,5 @@
 from django.db import transaction
+from django.http import HttpRequest, HttpResponse
 from django.urls import reverse
 from django.shortcuts import render, redirect
 
@@ -8,7 +9,17 @@ from .models import OrderItem
 from .tasks import order_created
 
 
-def order_create(request):
+def order_create(request: HttpRequest) -> HttpResponse:
+    """
+    This view handles the creation of an order from the items in the cart.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The HTTP response object.
+
+    """
     cart = Cart(request)
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
