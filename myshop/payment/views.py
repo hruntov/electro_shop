@@ -102,5 +102,15 @@ def payment_completed(request: HttpRequest) -> HttpResponse:
 
 
 @csrf_exempt
-def payment_canceled(request):
+def payment_canceled(request: HttpRequest) -> HttpResponse:
+    """
+    Handle the payment cancellation.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The HTTP response object.
+
+    """
     return render(request, 'payment/canceled.html')
