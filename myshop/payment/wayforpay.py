@@ -4,7 +4,7 @@ import hmac
 import json
 from random import randint
 import time
-from typing import Optional, List, Dict
+from typing import Optional, List, Dict, Any
 
 
 API_URL = 'https://api.wayforpay.com/api'
@@ -82,10 +82,28 @@ class InvoiceStatusResult:
 
 class WayForPay:
     def __init__(self, key, domain_name):
+        """
+        Initializes the WayForPay class with the provided key and domain name.
+
+        Args:
+            key (str): The secret key for the WayForPay merchant account.
+            domain_name (str): The domain name of the merchant.
+
+        """
         self.__key = key
         self.__domain_name = domain_name
 
-    def hash_md5(self, string):
+    def hash_md5(self, string: str) -> str:
+        """
+        Generates an MD5 hash for the given string using the secret key.
+
+        Args:
+            string (str): The string to hash.
+
+        Returns:
+            str: The resulting MD5 hash.
+
+        """
         hash_result = hmac.new(
             self.__key.encode('utf-8'),
             string.encode('utf-8'),
@@ -94,7 +112,21 @@ class WayForPay:
 
         return hash_result
 
-    def create_invoice(self, merchantAccount, merchantAuthType, amount, currency, *args, **kwargs):
+    def create_invoice(self, merchantAccount: str, merchantAuthType: str, amount: str,
+                       currency: str, *args: Any, **kwargs: Any) -> Optional['InvoiceCreateResult']:
+        """
+        Creates an invoice with the given details and returns the result.
+
+        Args:
+            merchantAccount (str): The merchant account identifier.
+            merchantAuthType (str): The authentication type for the merchant.
+            amount (str): The amount to be invoiced.
+            currency (str): The currency of the transaction.
+
+        Returns:
+            Optional[InvoiceCreateResult]: The result of the invoice creation.
+
+        """
         orderReference = f"DH{randint(1000000000, 9999999999)}"
         orderDate = int(time.time())
 
@@ -106,7 +138,8 @@ class WayForPay:
         product_counts_data = ';'.join(map(str, productCounts))
         product_prices_data = ';'.join(map(str, productPrices))
 
-        string = f'{merchantAccount};{self.__domain_name};{orderReference};{orderDate};{amount};{currency};{product_names_data};{product_counts_data};{product_prices_data}'
+        string = f'{merchantAccount};{self.__domain_name};{orderReference};{orderDate};{amount};\
+            {currency};{product_names_data};{product_counts_data};{product_prices_data}'
 
         params = {
             "transactionType": "CREATE_INVOICE",
@@ -136,11 +169,24 @@ class WayForPay:
 
             return InvoiceCreateResult(invoice_url, reason, reason_code, qr_code, orderReference)
 
+        # TODO: Create logger
         except Exception as e:
             print(f'Error: {e}')
             return False
 
-    def check_invoice(self, merchantAccount, orderReference):
+    def check_invoice(self, merchantAccount: str,
+                      orderReference: str) -> Optional['InvoiceStatusResult']:
+        """
+        Checks the status of an invoice with the given details and returns the result.
+
+        Args:
+            merchantAccount (str): The merchant account identifier.
+            orderReference (str): The order reference number.
+
+        Returns:
+            Optional[InvoiceStatusResult]: The status of the invoice.
+
+        """
         apiVersion = '1'
         string = f"{merchantAccount};{orderReference}"
 
@@ -183,7 +229,18 @@ class WayForPay:
             print(f'Error: {e}')
             return None
 
-    def delete_invoice(self, merchantAccount, orderReference):
+    def delete_invoice(self, merchantAccount: str, orderReference: str) -> bool:
+        """
+        Deletes an invoice with the given details.
+
+        Args:
+            merchantAccount (str): The merchant account identifier.
+            orderReference (str): The order reference number.
+
+        Returns:
+            bool: True if the invoice was successfully deleted, False otherwise.
+
+        """
         try:
             apiVersion = '1'
             string = f"{merchantAccount};{orderReference}"
@@ -204,6 +261,16 @@ class WayForPay:
             print(f'Error: {e}')
             return None
 
-    def generate_signature(self, data):
+    def generate_signature(self, data: List[str]) -> str:
+        """
+        Generates a signature for the given data using the secret key.
+
+        Args:
+            data (List[str]): The data to sign.
+
+        Returns:
+            str: The generated signature.
+
+        """
         message = ';'.join(data).encode('utf-8')
         return hmac.new(self.__key.encode('utf-8'), message, hashlib.md5).hexdigest()
