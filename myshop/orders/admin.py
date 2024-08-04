@@ -4,8 +4,25 @@ from datetime import datetime
 from django.contrib import admin
 from django.db.models import QuerySet
 from django.http import HttpResponse
+from django.urls import reverse
+from django.utils.safestring import mark_safe
 
 from .models import Order, OrderItem
+
+
+def order_detail(obj: Order) -> str:
+    """
+    Generate a link to view the details of an order in the admin interface.
+
+    Args:
+        obj (Order): The order object for which to generate the detail link.
+
+    Returns:
+        str: A safe HTML string containing the link to the order detail view.
+
+    """
+    url = reverse('orders:admin_order_detail', args=[obj.id])
+    return mark_safe(f'<a href="{url}">View</a>')
 
 
 def export_to_csv(modeladmin: admin.ModelAdmin, request, queryset: QuerySet) -> HttpResponse:
@@ -52,7 +69,7 @@ class OrderItemInline(admin.TabularInline):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['id', 'first_name', 'last_name', 'email', 'address', 'postal_code', 'city',
-                    'paid', 'created', 'updated']
+                    'paid', 'created', 'updated', order_detail]
     list_filter = ['paid', 'created', 'updated']
     inlines = [OrderItemInline]
     actions = [export_to_csv]
