@@ -1,0 +1,48 @@
+<html>
+<body>
+    <h1>Electro Shop</h1>
+    <p>
+        Замовлення номер {{ order.id }}<br>
+        <span class="secondary">
+            {{ order.created|date:"M d, Y" }}
+        </span>
+    </p>
+    <h3>Рахунок для {{ order.first_name }} {{order.last_name }}</h3>
+    <p>
+        Email: {{ order.email }}<br>
+        Адреса: {{ order.address }}<br>
+        Місто: {{ order.city }}
+        Поштовий індекс: {{ order.postal_code }}
+    </p>
+    <h3>Куплені товари:</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Назва</th>
+                <th>Ціна</th>
+                <th>Кількість</th>
+                <th>Сума</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.items.all %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.get_cost }}</td>
+                </tr>
+            {% endfor %}
+            <tr class="total">
+                <td colspan="3">Всього</td>
+                <td>{{ order.get_total_cost }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>Статус оплати:
+        <span class="{% if order.paid %}paid{% else %}pending{% endif %}">
+            {% if order.paid %}Оплачено{% else %}Очікування оплати{% endif %}
+        </span>
+    </p>
+</body>
+</html>
