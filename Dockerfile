@@ -11,7 +11,8 @@ ENV PYTHONFAULTHANDLER=1 \
 
 RUN apt-get update && apt-get install -y \
     curl \
-    libpq-dev
+    libpq-dev \
+    libpangocairo-1.0-0
 
 RUN apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
   && pip install "poetry-core==1.8.1" "poetry==$POETRY_VERSION" && poetry --version
