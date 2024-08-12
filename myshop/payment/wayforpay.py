@@ -138,8 +138,8 @@ class WayForPay:
         product_counts_data = ';'.join(map(str, productCounts))
         product_prices_data = ';'.join(map(str, productPrices))
 
-        string = f'{merchantAccount};{self.__domain_name};{orderReference};{orderDate};{amount};\
-            {currency};{product_names_data};{product_counts_data};{product_prices_data}'
+        string = (f'{merchantAccount};{self.__domain_name};{orderReference};{orderDate};{amount};'
+                  f'{currency};{product_names_data};{product_counts_data};{product_prices_data}')
 
         params = {
             "transactionType": "CREATE_INVOICE",
