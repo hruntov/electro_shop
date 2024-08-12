@@ -1,9 +1,12 @@
 from cart.cart import Cart
+from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db import transaction
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
 from django.urls import reverse
+import weasyprint
 
 from .forms import OrderCreateForm
 from .models import Order, OrderItem
@@ -59,3 +62,26 @@ def admin_order_detail(request: HttpRequest, order_id: int) -> HttpResponse:
     """
     order = get_object_or_404(Order, id=order_id)
     return render(request, 'admin/orders/order/detail.html', {'order': order})
+
+
+@staff_member_required
+def admin_order_pdf(request: HttpRequest, order_id: int) -> HttpResponse:
+    """
+    Generate a PDF for a specific order in the admin interface.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+        order_id (int): The ID of the order for which to generate the PDF.
+
+    Returns:
+        HttpResponse: The HTTP response object containing the generated PDF.
+
+    """
+    order = get_object_or_404(Order, id=order_id)
+    html = render_to_string('orders/order/pdf.html', {'order': order})
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'filename=order_{order.id}.pdf'
+    weasyprint.HTML(string=html).write_pdf(
+        response, stylesheets=[weasyprint.CSS(
+            settings.STATIC_ROOT / 'css/pdf.css')])
+    return response
