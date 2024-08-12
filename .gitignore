@@ -163,3 +163,4 @@ cython_debug/
 .vscode
 settings.cpython-310
 *.pyc
+myshop/static/
