@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.views.decorators.csrf import csrf_exempt
 from orders.models import Order
 
+from .tasks import send_invoice_email
 from .wayforpay import WayForPay
 
 wayforpay = WayForPay(key=os.getenv('SECRET_WAYFORPAY_KEY'),
@@ -89,6 +90,7 @@ def payment_completed(request: HttpRequest) -> HttpResponse:
             if transaction_status == 'Approved':
                 order.paid = True
                 order.save()
+                send_invoice_email.delay(order.id)
             else:
                 order.paid = False
         except Order.DoesNotExist:
