@@ -19,8 +19,8 @@
             {% for item in order.items.all %}
                 <tr class="row{% cycle "1" "2"%}">
                     <td>
-                        <img src={% if item.product.image %}{{ item.product.image.url }}
-                        {% else %}{% static "img/no_image.png" %}{% endif %}>
+                        <img src="{% if item.product.image %}{{ item.product.image.url }}
+                        {% else %}{% static "img/no_image.png" %}{% endif %}">
                     </td>
                     <td>{{ item.product.name }}</td>
                     <td class="num">{{ item.price }} грн</td>
@@ -28,9 +28,31 @@
                     <td class="num">{{ item.total_price }} грн</td>
                 </tr>
             {% endfor %}
+            {% if order.coupon %}
+                <tr class="subtotal">
+                    <td>Стара ціна</td>
+                    <td colspan="3"></td>
+                    <td class="num">
+                        {{ order.get_total_cost_before_discount|floatformat:2 }} грн
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        "{{ order.coupon.code }}" купон
+                        (Знижка {{ order.discount }}%)
+                    </td>
+                <td colspan="3"></td>
+                <td class="num neg">
+                    - {{ order.get_discount|floatformat:2 }} грн
+                </td>
+            </tr>
+            {% endif %}
             <tr class="total">
-                <td colspan="4">Загальна вартість</td>
-                <td class="num">{{ order.get_total_cost }} грн</td>
+                <td>Всього</td>
+                <td colspan="3"></td>
+                <td class="num">
+                    {{ order.get_total_cost|floatformat:2 }} грн
+                </td>
             </tr>
         </tbody>
     </table>
