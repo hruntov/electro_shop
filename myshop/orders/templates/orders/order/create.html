@@ -15,8 +15,15 @@
                 <span>{{ item.total_price }} грн.</span>
             </li>
             {% endfor %}
+            {% if cart.coupon %}
+            <li>
+                "{{ cart.coupon.code }}"
+                (знижка {{ cart.coupon.discount }}%)
+                <span class="neg">{{ cart.get_discount|floatformat:2 }} грн</span>
+            </li>
+            {% endif %}
         </ul>
-        <p>Загальна вартість: <strong>{{ cart.get_total_price }} грн.</strong></p>
+        <p>Загальна вартість: <strong>{{ cart.get_total_price_after_discount|floatformat:2 }} грн.</strong></p>
     </div>
     <form method="post" class="order-form">
         {{ form.as_p }}
