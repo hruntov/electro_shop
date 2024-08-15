@@ -49,13 +49,36 @@
                     </tr>
                 {% endwith %}
             {% endfor %}
+            {% if cart.coupon %}
+                <tr class="subtotal">
+                    <td>Ціна без знижки</td>
+                    <td colspan="4"></td>
+                    <td class="num"{{ cart.get_total_price|floatformat:2 }} грн></td>
+                </tr>
+                <tr>
+                    <td>
+                        "{{ cart.coupon.code }}" купон
+                        ({{ cart.coupon.discount }}% знижка)
+                    </td>
+                    <td colspan="4"></td>
+                    <td class="num neg">
+                        -{{ cart.get_discount|floatformat:2 }} грн.
+                    </td>
+                </tr>
+            {% endif %}
             <tr class="total">
                 <td>Всього</td>
                 <td colspan="4"></td>
-                <td class="num">{{ cart.get_total_price }} грн</td>
+                <td class="num">{{ cart.get_total_price_after_discount|floatformat:2 }} грн</td>
             </tr>
         </tbody>
     </table>
+    <p>Використати купон:</p>
+    <form action="{% url "coupons:apply" %}" method="post">
+        {{ coupon_apply_form }}
+        <input type="submit" value="Apply">
+        {% csrf_token %}
+    </form>
     <p class="text-right">
         <a href="{% url "shop:product_list" %}" class="button-light">Продовжити покупки</a>
         <a href="{% url "orders:order_create" %}" class="button">Оформити замовлення</a>
