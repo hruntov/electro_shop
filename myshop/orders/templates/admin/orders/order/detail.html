@@ -72,14 +72,35 @@
             {% for item in order.items.all %}
             <tr class="row{% cycle "1" "2" %}">
                 <td>{{ item.product.name }}</td>
-                <td>{{ item.price }}</td>
+                <td>{{ item.price }} грн</td>
                 <td>{{ item.quantity }}</td>
-                <td>{{ item.get_cost }}</td>
+                <td>{{ item.get_cost }} грн</td>
             </tr>
             {% endfor %}
+
+            {% if order.coupon %}
+            <tr class="subtotal">
+                <td colspan="3">Стара ціна</td>
+                <td class="num">
+                    {{ order.get_total_cost_before_discount|floatformat:2 }} грн
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    "{{ order.coupon.code }}" купон
+                    (Знижка {{ order.discount }}%)
+                </td>
+                <td class="num neg">
+                    - {{ order.get_discount|floatformat:2 }} грн
+                </td>
+            </tr>
+            {% endif %}
+
             <tr class="total">
                 <td colspan="3">Всього</td>
-                <td>{{ order.get_total_cost }}</td>
+                <td>
+                    {{ order.get_total_cost|floatformat:2 }} грн
+                </td>
             </tr>
         </tbody>
     </table>
