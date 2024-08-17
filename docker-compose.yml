@@ -31,8 +31,8 @@ services:
       - SECRET_WAYFORPAY_KEY=${SECRET_WAYFORPAY_KEY}
       - WAYFORPAY_MERCHANT_LOGIN=${WAYFORPAY_MERCHANT_LOGIN}
       - DOMAIN_NAME=${DOMAIN_NAME}
-      - REDIS_HOST=${REDIS_HOST},
-      - REDIS_PORT=${REDIS_PORT},
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
       - REDIS_DB=${REDIS_DB}
 
 
@@ -75,10 +75,7 @@ services:
       - mynetwork
     ports:
       - 6379:6379
-    environment:
-      - REDIS_HOST=${REDIS_HOST}
-      - REDIS_PORT=${REDIS_PORT}
-      - REDIS_DB=${REDIS_DB}
+
 
 networks:
   mynetwork:
