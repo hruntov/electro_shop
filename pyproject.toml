@@ -15,6 +15,7 @@ flower = "^2.0.1"
 requests = "2.31.0"
 isort = "^5.13.2"
 weasyprint = "52.5"
+redis = "^5.0.8"
 
 
 [build-system]
