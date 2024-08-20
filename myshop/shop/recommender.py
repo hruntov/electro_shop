@@ -24,7 +24,7 @@ class Recommender:
         """
         return f'product:{id}:purchased_with'
 
-    def products_bought(self, products: List[object]) -> None:
+    def products_bought(self, products: List[Product]) -> None:
         """
         Update the Redis sorted sets for products bought together. This method increments the score
         of products bought together in Redis.
