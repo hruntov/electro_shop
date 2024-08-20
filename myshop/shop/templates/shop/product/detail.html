@@ -19,6 +19,16 @@
                 <input type="submit" value="Додати в корзину">
             </form>
             {{ product.description|linebreaks }}
+
+            {% if product.video %}
+                <div class="video-player">
+                    <h3>Огляд товара</h3>
+                    <iframe width="560" height="315"
+                    src="https://www.youtube.com/embed/{{ product.get_youtube_id }}"
+                    frameborder="0" allowfullscreen></iframe>
+                </div>
+            {% endif %}
+
             {% if recommended_products %}
             <div class="recommendations">
                 <h3>Люди, які купили цей товар, також купили</h3>

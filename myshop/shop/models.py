@@ -1,4 +1,5 @@
 from io import BytesIO
+import re
 
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
@@ -33,6 +34,7 @@ class Product(models.Model):
     available = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    video = models.URLField(blank=True, null=True, help_text="URL of the video for the product")
 
     class Meta:
         ordering = ['name']
@@ -63,3 +65,9 @@ class Product(models.Model):
                                               'image/jpeg', output.getbuffer().nbytes, None)
 
         super().save(*args, **kwargs)
+
+    def get_youtube_id(self):
+        """Extracts the YouTube video ID from the URL."""
+        pattern = r'(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)'
+        match = re.search(pattern, self.video)
+        return match.group(1) if match else None
