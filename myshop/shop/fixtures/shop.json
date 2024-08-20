@@ -1,1 +1,55 @@
-[{"model": "shop.category", "pk": 1, "fields": {"name": "Зарядні стації", "slug": "zariadni-stanciyi"}}, {"model": "shop.product", "pk": 1, "fields": {"category": 1, "name": "Зарядни станція тип 1", "slug": "batarejka-1", "image": "products/2024/07/28/eb3a_nkYywby.jpg", "description": "Опис", "price": "100.00", "available": true, "created": "2024-07-28T09:48:47.603Z", "updated": "2024-07-28T09:58:46.662Z"}}]
+[
+    {
+        "model": "shop.category",
+        "pk": 1,
+        "fields": {
+            "name": "Зарядні стації",
+            "slug": "zariadni-stanciyi"
+        }
+    },
+    {
+        "model": "shop.product",
+        "pk": 1,
+        "fields": {
+            "category": 1,
+            "name": "Зарядна станція тип 1",
+            "slug": "batarejka-1",
+            "image": "products/2024/07/28/eb3a_nkYywby.jpg",
+            "description": "Опис",
+            "price": "100.00",
+            "available": true,
+            "created": "2024-07-28T09:48:47.603Z",
+            "updated": "2024-07-28T09:58:46.662Z"
+        }
+    },
+    {
+        "model": "shop.product",
+        "pk": 2,
+        "fields": {
+            "category": 1,
+            "name": "Зарядна станція тип 2",
+            "slug": "batarejka-2",
+            "image": "products/2024/07/28/eb3a_nkYywby2.jpg",
+            "description": "Опис для Зарядної станції тип 2",
+            "price": "150.00",
+            "available": true,
+            "created": "2024-07-28T10:00:00.000Z",
+            "updated": "2024-07-28T10:10:00.000Z"
+        }
+    },
+    {
+        "model": "shop.product",
+        "pk": 3,
+        "fields": {
+            "category": 1,
+            "name": "Зарядна станція тип 3",
+            "slug": "batarejka-3",
+            "image": "products/2024/07/28/eb3a_nkYywby3.jpg",
+            "description": "Опис для Зарядної станції тип 3",
+            "price": "200.00",
+            "available": true,
+            "created": "2024-07-28T11:00:00.000Z",
+            "updated": "2024-07-28T11:10:00.000Z"
+        }
+    }
+]
