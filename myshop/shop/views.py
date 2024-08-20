@@ -5,6 +5,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, render
 
 from .models import Category, Product
+from .recommender import Recommender
 
 
 def product_list(request: HttpRequest, category_slug: Optional[str] = None) -> HttpResponse:
@@ -46,5 +47,10 @@ def product_detail(request: HttpRequest, id: int, slug: str) -> HttpResponse:
     """
     product = get_object_or_404(Product, id=id, slug=slug, available=True)
     cart_product_form = CartAddProductForm
-    return render(request, 'shop/product/detail.html', {'product': product,
-                                                        'cart_product_form': cart_product_form})
+    r = Recommender()
+    recommended_products = r.suggest_products_for([product], 2)
+    return render(request,
+                  'shop/product/detail.html',
+                  {'product': product,
+                   'cart_product_form': cart_product_form,
+                   'recommended_products': recommended_products})
