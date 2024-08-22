@@ -6,10 +6,12 @@ from django.db import models
 
 from coupons.models import Coupon
 from shop.models import Product
+from users.models import Profile
 
 
 class Order(models.Model):
     """Stores information about an order, including customer personal details and payment status."""
+    profile = models.ForeignKey(Profile, related_name='orders', on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
