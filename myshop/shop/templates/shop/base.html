@@ -23,7 +23,7 @@
         <div id='subheader'>
             <div>
                 {% if user.is_authenticated %}
-                <h3>Welcome <a href="#">{{ user.username }}</a></h3>
+                <h3>Welcome <a href="{% url 'profile' %}">{{ user.username }}</a></h3>
                     <br /><br />
                 {% else %}
                     <a href="{% url 'account_login' %}" class="btn btn-primary">Login</a>
