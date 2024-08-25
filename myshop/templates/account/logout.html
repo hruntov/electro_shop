@@ -1,6 +1,8 @@
-{% extends "account/base_entrance.html" %}
+{% extends "account/base_manage.html" %}
 {% load allauth i18n %}
-
+{% block head_title %}
+    {% trans "Sign Out" %}
+{% endblock head_title %}
 {% block content %}
     {% element h1 %}
         {% trans "Sign Out" %}
