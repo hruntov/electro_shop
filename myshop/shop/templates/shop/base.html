@@ -5,12 +5,33 @@
         <meta charset='utf-8'>
         <title>{% block title %}Інтернет магазин{% endblock %}</title>
         <link rel='stylesheet' href='{% static "css/base.css" %}'>
+        <meta charset="UTF-8" />
+        <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        />
+        <link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        {% block extra_head %}
+        {% endblock extra_head %}
     </head>
     <body>
         <div id='header'>
             <a href="/" class="logo">Інтернет магазин</a>
         </div>
         <div id='subheader'>
+            <div>
+                {% if user.is_authenticated %}
+                <h3><a href="{% url 'profile' %}">{{ user.username }}</a></h3>
+                    <br /><br />
+                {% else %}
+                    <a href="{% url 'account_login' %}" class="btn btn-primary">Login</a>
+                {% endif %}
+            </div>
             <div class='cart'>
                 {% with total_items=cart|length %}
                     {% if total_items > 0 %}
@@ -20,14 +41,37 @@
                             ${{ cart.get_total_price }}
                         </a>
                     {% else %}
-                        Your cart is empty
+                        Ваша корзина порожня
                     {% endif %}
                 {% endwith %}
             </div>
         </div>
-        <div id="content">
-            {% block content %}
+
+        <div id="menu">
+            {% block menu %}
             {% endblock %}
         </div>
+
+        <div id="messages">
+            {% if messages %}
+                <div class="container mt-3">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        {% block body %}
+            <div>
+                {% block content %}
+                {% endblock content %}
+            </div>
+        {% endblock body %}
+
+        {% block extra_body %}
+        {% endblock extra_body %}
     </body>
 </html>

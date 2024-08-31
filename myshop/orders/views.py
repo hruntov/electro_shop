@@ -12,6 +12,8 @@ from .forms import OrderCreateForm
 from .models import Order, OrderItem
 from .tasks import order_created
 
+from users.models import Profile
+
 
 def order_create(request: HttpRequest) -> HttpResponse:
     """
@@ -28,8 +30,11 @@ def order_create(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
         if form.is_valid():
+            profile = Profile.objects.get(user=request.user)
             with transaction.atomic():
-                order = form.save()
+                order = form.save(commit=False)
+                order.profile = profile
+                order.save()
                 if cart.coupon:
                     order.coupon = cart.coupon
                     order.discount = cart.coupon.discount

@@ -16,5 +16,17 @@
             "groups": [],
             "user_permissions": []
         }
+    },
+    {
+        "model": "users.profile",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "first_name": "Super",
+            "last_name": "User",
+            "email": "admin@admin.com",
+            "address": "123 Admin St",
+            "city": "Admin City"
+        }
     }
 ]
