@@ -484,6 +484,21 @@ socialaccount = ["pyjwt[crypto] (>=1.7)", "requests (>=2.0.0)", "requests-oauthl
 steam = ["python3-openid (>=3.0.8)"]
 
 [[package]]
+name = "django-livereload-server"
+version = "0.5.1"
+description = "LiveReload functionality integrated with your Django development environment"
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-livereload-server-0.5.1.tar.gz", hash = "sha256:e1fecca2a74ec87235bbfdf8b63365499324d9a87017427e5d297711d1cd532d"},
+    {file = "django_livereload_server-0.5.1-py2.py3-none-any.whl", hash = "sha256:e03bd65d1679ef1b4a5e22e2a77d11d3cfb0e3d21ae25afba49e280924ba6f58"},
+]
+
+[package.dependencies]
+django = ">=1.8"
+tornado = "*"
+
+[[package]]
 name = "flake8"
 version = "7.1.0"
 description = "the modular source code checker: pep8 pyflakes and co"
@@ -1136,4 +1151,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "22855c4d0bc8858fa23e3f3134c5e9ca79e41fca67e62e72d53afbf3caba5ee3"
+content-hash = "6518816a68e053813e60415cb388c4ad46527cfa36bb5cc7fefe8d5138d559c8"

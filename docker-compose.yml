@@ -10,6 +10,7 @@ services:
     ports:
       - 5555:5555
       - 8000:8000
+      - 35729:35729
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000"]
       interval: 10s
